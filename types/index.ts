@@ -40,7 +40,7 @@ export interface AnchorRate {
   totalReceived: number | null; // computed: (amount - fee) * exchangeRate; null when anchor is unreachable
   updatedAt: Date;
   /** Discriminates the origin of the rate data. */
-  source: 'sep38' | 'sep24-fee' | 'unavailable';
+  source: 'sep38' | 'sep24-fee' | 'sep6-fee' | 'unavailable';
   expiresAt?: Date | undefined;
   /**
    * SEP-38 firm quote id, when this rate originated from a quote server.
@@ -79,11 +79,13 @@ export interface AnchorCapabilities {
   sep24: boolean;
   sep38: boolean;
   sep12: boolean;
+  sep6: boolean;
 }
 
 /** Relevant fields from a stellar.toml file resolved via SEP-1. */
 export interface Sep1TomlData {
   domain: string;
+  TRANSFER_SERVER: string | null;
   TRANSFER_SERVER_SEP0024: string | null;
   ANCHOR_QUOTE_SERVER: string | null;
   WEB_AUTH_ENDPOINT: string | null;

@@ -70,6 +70,7 @@ function getCurrencies(raw: Record<string, unknown>): Sep1TomlData['CURRENCIES']
 }
 
 function toSep1TomlData(domain: string, raw: Record<string, unknown>): Sep1TomlData {
+  const transferServerSep6 = getString(raw, 'TRANSFER_SERVER');
   const transferServer = getString(raw, 'TRANSFER_SERVER_SEP0024');
   const webAuthEndpoint = getString(raw, 'WEB_AUTH_ENDPOINT');
   const signingKey = getString(raw, 'SIGNING_KEY');
@@ -77,6 +78,7 @@ function toSep1TomlData(domain: string, raw: Record<string, unknown>): Sep1TomlD
 
   return {
     domain,
+    TRANSFER_SERVER: transferServerSep6,
     TRANSFER_SERVER_SEP0024: transferServer,
     ANCHOR_QUOTE_SERVER: quoteServer,
     WEB_AUTH_ENDPOINT: webAuthEndpoint,
@@ -87,6 +89,7 @@ function toSep1TomlData(domain: string, raw: Record<string, unknown>): Sep1TomlD
     ORG_SUPPORT_URL: getString(raw, 'ORG_SUPPORT_URL'),
     CURRENCIES: getCurrencies(raw),
     capabilities: {
+      sep6: Boolean(transferServerSep6),
       sep10: Boolean(webAuthEndpoint),
       sep24: Boolean(transferServer),
       /** Derived from ANCHOR_QUOTE_SERVER presence — the authoritative source for SEP-38 capability. */

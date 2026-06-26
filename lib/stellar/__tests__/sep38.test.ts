@@ -5,6 +5,7 @@ import type { Sep1TomlData } from '@/types';
 function makeToml(overrides: Partial<Sep1TomlData> = {}): Sep1TomlData {
   return {
     domain: 'test.anchor.com',
+    TRANSFER_SERVER: null,
     TRANSFER_SERVER_SEP0024: null,
     ANCHOR_QUOTE_SERVER: null,
     WEB_AUTH_ENDPOINT: null,
@@ -14,7 +15,7 @@ function makeToml(overrides: Partial<Sep1TomlData> = {}): Sep1TomlData {
     ORG_SUPPORT_EMAIL: null,
     ORG_SUPPORT_URL: null,
     CURRENCIES: [],
-    capabilities: { sep10: false, sep24: false, sep38: false, sep12: false },
+    capabilities: { sep6: false, sep10: false, sep24: false, sep38: false, sep12: false },
     ...overrides,
   };
 }
@@ -29,7 +30,7 @@ describe('assertSep38Capable', () => {
 
   it('throws when ANCHOR_QUOTE_SERVER is null even if flag is true', () => {
     const toml = makeToml({
-      capabilities: { sep10: false, sep24: false, sep38: true, sep12: false },
+      capabilities: { sep6: false, sep10: false, sep24: false, sep38: true, sep12: false },
     });
     expect(() => assertSep38Capable(toml)).toThrow('cannot be used for SEP-38');
   });
@@ -38,7 +39,7 @@ describe('assertSep38Capable', () => {
     const url = 'https://anchor.example.com/quote';
     const toml = makeToml({
       ANCHOR_QUOTE_SERVER: url,
-      capabilities: { sep10: false, sep24: false, sep38: true, sep12: false },
+      capabilities: { sep6: false, sep10: false, sep24: false, sep38: true, sep12: false },
     });
     expect(assertSep38Capable(toml)).toBe(url);
   });
