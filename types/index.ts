@@ -426,6 +426,30 @@ export interface SwapRoute {
   lastUpdated: Date;
 }
 
+// ─── SEP-12 ───────────────────────────────────────────────────────────────────
+
+/** Normalized KYC status values returned by SEP-12 /customer. */
+export type Sep12CustomerStatus = 'ACCEPTED' | 'NEEDS_INFO' | 'PROCESSING' | 'REJECTED';
+
+/** Fields the anchor requires for KYC, keyed by field name. */
+export interface Sep12CustomerFields {
+  [key: string]: {
+    type: string;
+    description: string;
+    optional?: boolean;
+    status?: 'ACCEPTED' | 'PROCESSING' | 'REJECTED' | 'NEEDS_INFO' | 'VERIFICATION_REQUIRED';
+  };
+}
+
+/** Response from SEP-12 GET /customer. */
+export interface Sep12CustomerResponse {
+  id?: string;
+  status: Sep12CustomerStatus;
+  fields?: Sep12CustomerFields;
+  provided_fields?: Sep12CustomerFields;
+  message?: string;
+}
+
 // ─── KYC iframe ────────────────────────────────────────────────────────────────
 
 /** PostMessage data structure for KYC iframe communication */
